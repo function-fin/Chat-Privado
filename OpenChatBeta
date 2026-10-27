@@ -62,6 +62,22 @@ G2L.ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 G2L.ScreenGui.ResetOnSpawn = false
 G2L.ScreenGui.Parent = game:GetService("CoreGui")
 
+-- [FIX UISCALE] Aumenta a UI no PC (1.9x) e mantém padrão no mobile (1.0x)
+local UiScale = Instance.new("UIScale", G2L.ScreenGui)
+UiScale.Name = "SPWN_UIScale"
+
+local function UpdateUIScale()
+    if not UserInputService.TouchEnabled then
+        UiScale.Scale = 1.9 -- 90% maior no PC
+    else
+        UiScale.Scale = 1.0 -- Tamanho padrão no mobile
+    end
+end
+
+UpdateUIScale()
+UserInputService.LastInputTypeChanged:Connect(UpdateUIScale)
+-- [FIX UISCALE fim]
+
 -- INSTÂNCIA DO SOM
 local NotificationSound = Instance.new("Sound")
 NotificationSound.Name = "ChatNotificationSound"
@@ -299,7 +315,7 @@ ActionMuteBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ActionMuteBtn.BorderSizePixel = 0
 ActionMuteBtn.Text = "SILENCIAR"
 ActionMuteBtn.Font = FONTE_PIXEL
-ActionMuteBtn.TextColor3 = Color3.fromRGB(255, 255, 255) -- Texto alterado para branco puro
+ActionMuteBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 ActionMuteBtn.TextSize = 11
 ActionMuteBtn.ZIndex = 31
 ActionMuteBtn.Parent = ActionMenu
